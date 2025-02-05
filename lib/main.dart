@@ -1,4 +1,4 @@
-import 'dart:math'; // Add this for generating random values
+import 'dart:math'; // For generating random values
 import 'package:flutter/material.dart';
 
 void main() {
@@ -55,9 +55,23 @@ class _WeatherInfoAppState extends State<WeatherInfoApp> {
               onPressed: fetchWeather,
               child: Text('Fetch Weather'),
             ),
-            Text('City: $city'),
-            Text('Temperature: $temperature'),
-            Text('Weather: $weatherCondition'),
+            SizedBox(height: 20),
+            if (city.isNotEmpty) ...[
+              Text(
+                'City: $city',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Temperature: $temperature',
+                style: TextStyle(fontSize: 18),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Weather: $weatherCondition',
+                style: TextStyle(fontSize: 18),
+              ),
+            ],
           ],
         ),
       ),
