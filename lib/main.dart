@@ -27,6 +27,7 @@ class _WeatherInfoAppState extends State<WeatherInfoApp> {
   String city = '';
   String temperature = '';
   String weatherCondition = '';
+  List<Map<String, String>> sevenDayForecast = [];
 
   void fetchWeather() {
     setState(() {
@@ -34,6 +35,18 @@ class _WeatherInfoAppState extends State<WeatherInfoApp> {
       temperature =
           '${Random().nextInt(16) + 15}°C'; // Random temperature between 15 and 30°C
       weatherCondition = ['Sunny', 'Cloudy', 'Rainy'][Random().nextInt(3)];
+    });
+  }
+
+  void fetchSevenDayForecast() {
+    setState(() {
+      sevenDayForecast = List.generate(7, (index) {
+        // Simulating data for each day
+        String day = 'Day ${index + 1}';
+        String temp = '${Random().nextInt(16) + 15}°C';
+        String condition = ['Sunny', 'Cloudy', 'Rainy'][Random().nextInt(3)];
+        return {'day': day, 'temp': temp, 'condition': condition};
+      });
     });
   }
 
@@ -55,6 +68,10 @@ class _WeatherInfoAppState extends State<WeatherInfoApp> {
               onPressed: fetchWeather,
               child: Text('Fetch Weather'),
             ),
+            ElevatedButton(
+              onPressed: fetchSevenDayForecast,
+              child: Text('Fetch 7-Day Forecast'),
+            ),
             SizedBox(height: 20),
             if (city.isNotEmpty) ...[
               Text(
@@ -72,11 +89,32 @@ class _WeatherInfoAppState extends State<WeatherInfoApp> {
                 style: TextStyle(fontSize: 18),
               ),
             ],
+            SizedBox(height: 20),
+            if (sevenDayForecast.isNotEmpty) ...[
+              Text(
+                '7-Day Forecast:',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: sevenDayForecast.length,
+                itemBuilder: (context, index) {
+                  var dayForecast = sevenDayForecast[index];
+                  return Card(
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    child: ListTile(
+                      title: Text(dayForecast['day']!),
+                      subtitle: Text(
+                          'Temp: ${dayForecast['temp']}, Condition: ${dayForecast['condition']}'),
+                    ),
+                  );
+                },
+              ),
+            ],
           ],
         ),
       ),
     );
   }
 }
-
-//everything oki
